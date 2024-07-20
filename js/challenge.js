@@ -21,21 +21,18 @@ minusButton.addEventListener('click', () => {
 //Like an Individual Number of the Counter
 let heartButton = document.getElementById('heart');
 let likesContainer = document.querySelector('.likes');
-let clickCount = 0;
-//Yet to implement Click Count
 heartButton.addEventListener('click', () => {
   let comment = document.createElement('li');
   let counter = document.getElementById('counter');
-  comment.textContent = `${counter.innerText} has been liked ${clickCount} times`;
+  comment.textContent = `${counter.innerText} has been liked`; //Can't implement click count
   likesContainer.appendChild(comment);
 });
 
-//Pausing the Counter Functionality
+//Pausing & Resuming the Counter Functionality
 let pauseButton = document.getElementById('pause');
 let buttons = document.getElementsByTagName('button');
-
-if (pauseButton.innerText == 'Pause') {
-  pauseButton.addEventListener('click', () => {
+pauseButton.addEventListener('click', () => {
+  if (pauseButton.innerText === 'Pause') {
     clearInterval(intervalID);
     let buttonsArray = [...buttons];
     let newButtonsArray = buttonsArray.filter(
@@ -43,25 +40,25 @@ if (pauseButton.innerText == 'Pause') {
     );
     newButtonsArray.forEach((button) => button.setAttribute('disabled', true));
     pauseButton.textContent = 'Resume';
-  });
-}
-//Backfired Code for resuming
-/*
-else if (pauseButton.innerText == 'Resume') {
-  pauseButton.addEventListener('click', () => {
-    incrementCounter();
+  } else {
+    incrementCounter(counter);
     let buttonsArray = [...buttons];
     let newButtonsArray = buttonsArray.filter(
       (button) => button.id !== 'pause'
     );
     newButtonsArray.forEach((button) => button.removeAttribute('disabled'));
     pauseButton.textContent = 'Pause';
-  });
-}
-*/
+  }
+});
 //Leaving Comments
 let commentsContainer = document.getElementById('list');
 let formInput = document.getElementById('comment-input');
-let comment = document.createElement('p');
-comment.textContent = formInput.value;
-commentsContainer.appendChild(comment);
+let commentForm = document.getElementById('comment-form');
+
+commentForm.addEventListener('submit', (event) => {
+  event.preventDefault();
+  let comment = document.createElement('p');
+  comment.textContent = formInput.value;
+  commentsContainer.appendChild(comment);
+  formInput.value = '';
+});
